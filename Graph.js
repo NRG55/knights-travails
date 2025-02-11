@@ -1,3 +1,5 @@
+import Knight from "./Knight.js";
+
 export default class Graph {
     constructor(size = 8 ) {
         this.vertices = [];
@@ -34,5 +36,22 @@ export default class Graph {
     addEdges(vertexOne, vertexTwo) {              
         this.adjacentList.get(vertexOne).add(vertexTwo);
         this.adjacentList.get(vertexTwo).add(vertexOne);
+    };
+
+    buildAdjacentList = () => {        
+        const knight = new Knight();
+
+        this.vertices.forEach((vertex) => {
+            this.addVertex(vertex);
+        });
+        
+      
+        for (const vertex of this.adjacentList.keys()) {
+            const neighbors = knight.possibleMoves(vertex);  
+           
+            neighbors.forEach((neighbor) => {
+                this.addEdges(vertex, neighbor);
+            });
+        };       
     };
 }

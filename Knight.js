@@ -1,3 +1,5 @@
+import Graph from "./Graph.js";
+
 export default class Knight {
     constructor() {
         // Default knight moves by squares on the board clockwise
@@ -35,6 +37,53 @@ export default class Knight {
         });
        
         return possibleMoves;
+    };
+
+    moves(start, end) {       
+        const startCoordinates = this.arrayToString(start); // Need to convert coordinates from array to string        
+        const endCoordinates = this.arrayToString(end);
+        
+        const graph = new Graph();        
+        graph.buildAdjacentList();
+        const adjacentList = graph.adjacentList;     
+      
+        const queue = [];
+        const path = [];
+        const visited = {};        
+        const predecessorsMap = {}; // Stores key value pairs -> key(neighbor vertex): value(parent vertex)
+
+        queue.push(startCoordinates);
+        visited[startCoordinates] = true;        
+
+        while (queue.length) {
+            const vertex = queue.shift();          
+            const neighborsList = adjacentList.get(vertex);          
+           
+            if (vertex === endCoordinates) {
+                let current = vertex;
+               
+                while (current) {
+                    path.unshift(current); // Unshift instead of push to keep coordinates sequence from the first move 
+                    current = predecessorsMap[current];
+                };
+
+                return path;
+            }
+
+            neighborsList.forEach((neighbor) => {
+                if (!visited[neighbor]) {                  
+                    visited[neighbor] = true;
+                    predecessorsMap[neighbor] = vertex;
+                    queue.push(neighbor);                
+                };
+            });
+        };    
+    };
+
+    arrayToString(array) {
+        const [x, y] = array;
+
+        return `[${x}, ${y}]`;
     };
 }
 
