@@ -28,11 +28,11 @@ export default class Graph {
     };
 
     addVertex(vertex) {   
-        this.adjacentList.set(vertex, []);
+        this.adjacentList.set(vertex, new Set());
     };
 
-    addEdges(vertexOne, vertexTwo) {        
-        this.adjacentList.get(vertexOne).push(vertexTwo);
-        this.adjacentList.get(vertexTwo).push(vertexOne);
+    addEdges(vertexOne, vertexTwo) {              
+        this.adjacentList.get(vertexOne).add(vertexTwo);
+        this.adjacentList.get(vertexTwo).add(vertexOne);
     };
 }
