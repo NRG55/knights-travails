@@ -21,7 +21,7 @@ export default class Knight {
     };
     
     // Possible moves from the starting position (x and y coordinates)
-    possibleMoves = (coordinates) => {  
+    possibleMoves = (coordinates) => {          
         let x = Number(coordinates.slice(1, 2));
         let y = Number(coordinates.slice(4, 5));
        
@@ -39,13 +39,17 @@ export default class Knight {
         return possibleMoves;
     };
 
-    moves(start, end) {       
+    moves(start, end) { 
         const startCoordinates = this.arrayToString(start); // Need to convert coordinates from array to string        
         const endCoordinates = this.arrayToString(end);
-        
+
         const graph = new Graph();        
         graph.buildAdjacentList();
-        const adjacentList = graph.adjacentList;     
+        const adjacentList = graph.adjacentList;  
+        
+        if (!adjacentList.has(startCoordinates) || !adjacentList.has(endCoordinates)) {
+            throw new Error("Invalid coordinates!");
+        };           
       
         const queue = [];
         const path = [];
